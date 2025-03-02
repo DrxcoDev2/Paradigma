@@ -23,6 +23,10 @@ app.whenReady().then(() => {
     mainWindow.on("closed", () => {
         mainWindow = null;
     });
+
+    const session = mainWindow.webContents.session;
+    session.clearCache();
+    session.clearData();
 });
 
 app.on("window-all-closed", () => {
@@ -31,3 +35,4 @@ app.on("window-all-closed", () => {
 
 // For GPU healt
 app.enableSandbox();
+
