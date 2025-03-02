@@ -1,12 +1,12 @@
-// webview.ts
-const webview = document.getElementById("webview") as HTMLIFrameElement;
+const webview = document.getElementById("webview") as WebviewElement;
 const backButton = document.getElementById("back") as HTMLButtonElement;
 const forwardButton = document.getElementById("forward") as HTMLButtonElement;
 const urlInput = document.getElementById("url") as HTMLInputElement;
 const goButton = document.getElementById("go") as HTMLButtonElement;
+const weatherButton = document.getElementById("weather") as HTMLButtonElement;
 
 // Funci�n para cargar una URL en el WebView
-function loadURL(url: string) {
+function loadURL(url: string): void {
     if (!url.startsWith("http")) {
         url = "https://" + url; // Agrega "https://" si falta
     }
@@ -27,6 +27,10 @@ forwardButton.addEventListener("click", () => {
     }
 });
 
+weatherButton.addEventListener("click", () => {
+    loadURL("https://www.weather.com/es-ES/tiempo/hoy/l/SPXX0050:1:SP?Goto=Redirected");
+});
+
 // Cargar la URL ingresada en la barra de direcciones
 goButton.addEventListener("click", () => {
     loadURL(urlInput.value);
@@ -41,5 +45,3 @@ urlInput.addEventListener("keypress", (event) => {
 
 // Cargar Google por defecto
 loadURL("https://www.google.com/");
-
-export { loadURL };

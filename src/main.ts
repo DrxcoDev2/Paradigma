@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut, session } from "electron";
 import path from "path";
 import TabsManager from "./tabs"; // Importar el sistema de pesta�as
 
@@ -7,6 +7,7 @@ let splashWindow: BrowserWindow | null = null;
 let tabsManager: TabsManager | null = null;
 
 app.whenReady().then(() => {
+
     // Crear la ventana de la pantalla de inicio
     splashWindow = new BrowserWindow({
         width: 400,
@@ -34,6 +35,8 @@ app.whenReady().then(() => {
             webSecurity: false,
         }
     });
+
+    mainWindow.webContents.openDevTools();
 
     // Cargar el archivo index.html
     mainWindow.loadFile("index.html");
@@ -81,12 +84,22 @@ app.whenReady().then(() => {
 // Limpiar los atajos cuando la aplicaci�n se cierre
 app.on("will-quit", () => {
     globalShortcut.unregisterAll();
+    clearCache(); // Limpiar la cach� cuando la aplicaci�n va a cerrarse
 });
 
 // Cerrar la aplicaci�n cuando todas las ventanas est�n cerradas (excepto en macOS)
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
 });
+
+// Funci�n para limpiar la cach� de la aplicaci�n
+function clearCache() {
+    session.defaultSession.clearCache().then(() => {
+        console.log("Cach� borrada correctamente.");
+    }).catch((error) => {
+        console.error("Error al borrar la cach�:", error);
+    });
+}
 
 // Habilitar sandbox (opcional)
 app.enableSandbox();

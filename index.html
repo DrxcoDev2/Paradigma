@@ -87,10 +87,11 @@
 
     <!-- Barra de navegaci�n -->
     <div id="navbar">
-        <button id="back">\u2b05\ufe0f</button>
-        <button id="forward">\u27a1\ufe0f</button>
+        <button id="back">&#8592;</button>
+        <button id="forward">&#8594;</button>
         <input type="text" id="url" placeholder="Search">
         <button id="go">Ir</button>
+        <button id="weather">Weather</button>
     </div>
 
     <!-- Barra de pesta�as -->
@@ -101,6 +102,6 @@
     <!-- WebView para cargar Google -->
     <webview id="webview" src="https://duckduckgo.com/" style="flex-grow: 1;" websecurity="false" sandbox="allow-scripts allow-same-origin"></webview>
 
-    <script src="./dist/webview.js"></script>
+    <script type="module" src="./dist/webview.js"></script> <!-- Apunta a tu archivo TS compilado -->
 </body>
 </html>
