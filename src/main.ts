@@ -3,8 +3,23 @@ import path from "path";
 import { exit } from "process";
 
 let mainWindow: BrowserWindow | null = null;
+let splashWindow: BrowserWindow | null = null;
 
 app.whenReady().then(() => {
+
+    splashWindow = new BrowserWindow({
+        width: 400,
+        height: 300,
+        frame: false, // Sin marco
+        alwaysOnTop: true, // Siempre encima
+        transparent: true, // Fondo transparente
+        webPreferences: {
+            preload: __dirname + "/preload.js"
+        }
+    });
+
+    splashWindow.loadFile('splash.html'); // Cargar el HTML de la pantalla de inicio
+
     mainWindow = new BrowserWindow({
         width: 1000,
         height: 700,
@@ -16,6 +31,8 @@ app.whenReady().then(() => {
             nodeIntegrationInSubFrames: false
         }
     });
+    
+    
 
     // Carga el archivo index.html
     mainWindow.loadFile("index.html");
@@ -33,6 +50,8 @@ app.whenReady().then(() => {
         console.log('Ctrl + 1 presionado. Cerrando la aplicaci�n...');
         app.quit();  
     });
+
+    
 });
 
 // Limpiar el atajo 
