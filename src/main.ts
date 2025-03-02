@@ -31,7 +31,8 @@ app.whenReady().then(() => {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: true, // Habilita el uso de IPC en el renderizador
             webviewTag: true, // Aseg�rate de habilitar el tag <webview>
-            nodeIntegrationInSubFrames: false
+            nodeIntegrationInSubFrames: false,
+            webSecurity: false
         }
     });
 

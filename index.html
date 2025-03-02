@@ -89,7 +89,7 @@
     <div id="navbar">
         <button id="back">\u2b05\ufe0f</button>
         <button id="forward">\u27a1\ufe0f</button>
-        <input type="text" id="url" placeholder="https://www.google.com/" value="https://www.google.com/">
+        <input type="text" id="url" placeholder="Search">
         <button id="go">Ir</button>
     </div>
 
@@ -97,7 +97,7 @@
     <div class="tabs-container" id="tabsContainer"></div>
 
     <!-- WebView para cargar Google -->
-    <webview id="webview" src="https://www.google.com/" style="flex-grow: 1;" websecurity="false"></webview>
+    <webview id="webview" src="https://duckduckgo.com/" style="flex-grow: 1;" websecurity="false" sandbox="allow-scripts allow-same-origin"></webview>
 
     <script src="./dist/webview.js"></script>
 </body>

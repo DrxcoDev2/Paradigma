@@ -47,7 +47,7 @@ function createTab(url: string): void {
 }
 
 // Inicializar con una pesta�a predeterminada
-createTab('https://www.google.com/');
+createTab('https://duckduckgo.com/');
 
 // Manejo de eventos
 document.getElementById('go')?.addEventListener('click', () => {
