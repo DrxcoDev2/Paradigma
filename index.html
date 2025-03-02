@@ -1,11 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electron + TypeScript</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron - Navegador</title>
+    <style>
+        /* Aseguramos que el body y html ocupen toda la pantalla */
+        body, html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilo de la barra de navegaci�n */
+        #navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1; /* Asegura que la barra est� sobre el webview */
+        }
+
+        /* Input de la URL */
+        #navbar input {
+            width: 400px;
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Botones de navegaci�n */
+        #navbar button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilo para cuando el usuario pasa el mouse por encima del bot�n */
+        #navbar button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para el webview */
+        webview {
+            flex-grow: 1; /* Deja que el webview ocupe todo el espacio */
+            width: 100%;
+            height: 100%;
+            margin-top: 50px; /* Deja espacio para la barra */
+        }
+    </style>
 </head>
 <body>
-  <h1>�Hola desde Electron con TypeScript!</h1>
+
+    <!-- Barra de navegaci�n -->
+    <div id="navbar">
+        <button id="back">\u2b05\ufe0f</button>
+        <button id="forward">\u27a1\ufe0f</button>
+        <input type="text" id="url" placeholder="https://www.google.com/" value="https://www.google.com/">
+        <button id="go">Ir</button>
+    </div>
+
+    <!-- WebView para cargar Google -->
+    <webview id="webview" src="https://www.google.com/" style="flex-grow: 1;"></webview>
+
+    <script>
+        const webview = document.getElementById("webview");
+        const urlInput = document.getElementById("url");
+
+        document.getElementById("go").addEventListener("click", () => {
+            let query = urlInput.value;
+
+            // Si es una b�squeda, redirigimos a Google
+            if (query.toLowerCase().includes("traductor") || query.trim() !== "") {
+                let searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(query);
+                webview.setAttribute("src", searchUrl);
+            } else {
+                // Si no es un t�rmino de b�squeda, solo cargamos la URL directa
+                if (!query.startsWith("http")) {
+                    query = "https://" + query;
+                }
+                webview.setAttribute("src", query);
+            }
+        });
+
+        document.getElementById("back").addEventListener("click", () => {
+            webview.goBack();
+        });
+
+        document.getElementById("forward").addEventListener("click", () => {
+            webview.goForward();
+        });
+    </script>
+
 </body>
 </html>
