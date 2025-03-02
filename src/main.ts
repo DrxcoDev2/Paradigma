@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut} from "electron";
 import path from "path";
+import { exit } from "process";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -27,6 +28,16 @@ app.whenReady().then(() => {
     const session = mainWindow.webContents.session;
     session.clearCache();
     session.clearData();
+
+    globalShortcut.register('Ctrl+1', () => {
+        console.log('Ctrl + 1 presionado. Cerrando la aplicaci�n...');
+        app.quit();  
+    });
+});
+
+// Limpiar el atajo 
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
 });
 
 app.on("window-all-closed", () => {
