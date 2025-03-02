@@ -23,7 +23,31 @@
             align-items: center;
             position: fixed;
             top: 0;
-            z-index: 1; /* Asegura que la barra est� sobre el webview */
+            z-index: 1;
+        }
+
+        /* Barra de pesta�as */
+        .tabs-container {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            background-color: #f1f1f1;
+            padding: 5px;
+            margin-top: 50px; /* Para dejar espacio entre las pesta�as y la barra de navegaci�n */
+            overflow-x: auto; /* Asegura que las pesta�as no se desborden */
+        }
+
+        .tab {
+            padding: 10px;
+            cursor: pointer;
+            margin-right: 10px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .tab.active {
+            background-color: #ccc;
+            border-color: #aaa;
         }
 
         /* Input de la URL */
@@ -52,10 +76,10 @@
 
         /* Estilo para el webview */
         webview {
-            flex-grow: 1; /* Deja que el webview ocupe todo el espacio */
+            flex-grow: 1;
             width: 100%;
             height: 100%;
-            margin-top: 50px; /* Deja espacio para la barra */
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -69,12 +93,12 @@
         <button id="go">Ir</button>
     </div>
 
+    <!-- Barra de pesta�as -->
+    <div class="tabs-container" id="tabsContainer"></div>
+
     <!-- WebView para cargar Google -->
     <webview id="webview" src="https://www.google.com/" style="flex-grow: 1;" websecurity="false"></webview>
 
-    <script src="src/webview.js">
-
-    </script>
-
+    <script src="./dist/webview.js"></script>
 </body>
 </html>

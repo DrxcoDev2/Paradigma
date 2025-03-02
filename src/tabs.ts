@@ -1,10 +1,9 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
-import { TabsManager } from "./tabs";  // Importar el sistema de pesta�as
+import { exit } from "process";
 
 let mainWindow: BrowserWindow | null = null;
 let splashWindow: BrowserWindow | null = null;
-let tabsManager: TabsManager | null = null;
 
 app.whenReady().then(() => {
 
@@ -43,11 +42,16 @@ app.whenReady().then(() => {
         mainWindow = null;
     });
 
-    // Crear una instancia del gestor de pesta�as
-    tabsManager = new TabsManager(mainWindow);
+    // Limpiar la cach� y los datos de sesi�n
+    const session = mainWindow.webContents.session;
+    session.clearCache();
+    session.clearData();
 
-    // Crear una pesta�a de ejemplo
-    tabsManager.createTab(); // Cargar Google en la primera pesta�a
+    // Registrar el atajo de teclado para cerrar la aplicaci�n
+    globalShortcut.register('Ctrl+1', () => {
+        console.log('Ctrl + 1 presionado. Cerrando la aplicaci�n...');
+        app.quit();  
+    });
 
     // Cerrar el splash despu�s de que mainWindow se haya cargado
     mainWindow.webContents.on('did-finish-load', () => {
@@ -56,25 +60,12 @@ app.whenReady().then(() => {
         }
     });
 
-    // Registrar el atajo de teclado para cerrar la aplicaci�n
-    globalShortcut.register('Ctrl+1', () => {
-        console.log('Ctrl + 1 presionado. Cerrando la aplicaci�n...');
-        app.quit();
-    });
-
-    // Registrar el atajo de teclado para crear una nueva pesta�a
-    globalShortcut.register('Ctrl+T', () => {
-        if (tabsManager) {
-            tabsManager.createTab(); // Crear una nueva pesta�a
+    // Opci�n alternativa: cerrar el splash despu�s de 3 segundos
+    setTimeout(() => {
+        if (splashWindow) {
+            splashWindow.close(); // Cerrar splash despu�s de 3 segundos
         }
-    });
-
-    // Registrar el atajo de teclado para cerrar todas las pesta�as
-    globalShortcut.register('Ctrl+W', () => {
-        if (tabsManager) {
-            tabsManager.closeAllTabs(); // Cerrar todas las pesta�as
-        }
-    });
+    }, 3000); // 3 segundos
 
 });
 
