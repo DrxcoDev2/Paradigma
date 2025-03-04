@@ -55,8 +55,21 @@ body, html {
     width: 400px;
     padding: 5px;
     margin-right: 10px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 5px;
+    background: #494949;
+    color: white;
+
+    &.focus{
+      border: none;
+      overflow: hidden;
+      outline: none;
+    }
+
+    &.active{
+      border: none;
+    }
+
   }
   
   
