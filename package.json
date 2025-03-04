@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "tsc",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "css": "sass scss/index.scss dist/index.css"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "globals": "^16.0.0",
+    "sass": "^1.85.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.0"
