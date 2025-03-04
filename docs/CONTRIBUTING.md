@@ -13,7 +13,7 @@ To contribute to **Paradigma**, follow these steps:
    After forking, clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/paradigma.git
+   git clone https://github.com/drxcodev2/paradigma.git
    cd paradigma
    ```
 
