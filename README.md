@@ -24,7 +24,7 @@
 # Contribute
 
 We love that you are so enthusiastic about improving Paradigm, please see our contribution guidelines:
-[Contribution.md](https://github.com/DrxcoDev2/Paradigma/edit/main/README.md)
+[Contribution.md](https://github.com/DrxcoDev2/Paradigma/blob/main/docs/CONTRIBUTING.md)
 
 
 
