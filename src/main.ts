@@ -30,7 +30,6 @@ app.whenReady().then(() => {
             contextIsolation: true,
             webviewTag: true,
         }
-        
     });
 
     mainWindow.loadFile("index.html");
@@ -52,7 +51,7 @@ app.whenReady().then(() => {
     });
 
     globalShortcut.register('Ctrl+1', () => {
-        mainWindow?.close()
+        mainWindow?.close();
         clearData();
     });
     
@@ -60,29 +59,28 @@ app.whenReady().then(() => {
 
 app.on("will-quit", () => {
     globalShortcut.unregisterAll();
-    clearCache();
-    
+
 });
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
 });
 
-// Funci�n para limpiar la cach�
+// Función para limpiar la caché
 function clearCache() {
     session.defaultSession.clearCache().then(() => {
-        console.log("Cach� borrada correctamente.");
+        console.log("Caché borrada correctamente.");
     }).catch((error) => {
-        console.error("Error al borrar la cach�:", error);
+        console.error("Error al borrar la caché:", error);
     });
 }
 
 function clearData() {
     session.defaultSession.clearData().then(() => {
-        console.log("Data has eliminate");
+        console.log("Datos eliminados");
     }).catch((error) => {
-        console.error("Error: ", error);
-    })
+        console.error("Error al eliminar los datos:", error);
+    });
 }
 
 app.enableSandbox(); // Solo habilitar sandbox si se necesita

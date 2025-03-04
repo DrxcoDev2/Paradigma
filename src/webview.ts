@@ -6,7 +6,7 @@ const goButton = document.getElementById("go") as HTMLButtonElement;
 const weatherButton = document.getElementById("weather") as HTMLButtonElement;
 const homeButton = document.getElementById("home") as HTMLButtonElement;
 const favouriteButton = document.getElementById("fav") as HTMLButtonElement;
-const AddFavbutton = document.getElementById('add-fav') as HTMLButtonElement;
+
 
 // Funci�n para cargar una URL en el WebView
 function loadURL(url: string): void {
@@ -38,9 +38,7 @@ homeButton.addEventListener("click", () => {
     loadURL("https://duckduckgo.com/");
 });
 
-AddFavbutton.addEventListener("click", () => {
-    AddFavbutton.classList.toggle('changed');
-});
+
 
 // Cargar la URL ingresada en la barra de direcciones
 goButton.addEventListener("click", () => {
