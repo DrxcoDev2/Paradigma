@@ -4,6 +4,7 @@ const forwardButton = document.getElementById("forward") as HTMLButtonElement;
 const urlInput = document.getElementById("url") as HTMLInputElement;
 const goButton = document.getElementById("go") as HTMLButtonElement;
 const weatherButton = document.getElementById("weather") as HTMLButtonElement;
+const homeButton = document.getElementById("home") as HTMLButtonElement;
 
 // Funci�n para cargar una URL en el WebView
 function loadURL(url: string): void {
@@ -29,6 +30,10 @@ forwardButton.addEventListener("click", () => {
 
 weatherButton.addEventListener("click", () => {
     loadURL("https://www.weather.com/es-ES/tiempo/hoy/");
+});
+
+homeButton.addEventListener("click", () => {
+    loadURL("https://duckduckgo.com/");
 });
 
 // Cargar la URL ingresada en la barra de direcciones
