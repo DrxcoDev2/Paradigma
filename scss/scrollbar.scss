@@ -1,16 +1,21 @@
-::-webkit-scrollbar {
-    width: 10px;
+/* Aplica estilos solo al scroll del WebView */
+  
+webview::-webkit-scrollbar {
+    width: 10px; /* Estilo para el scroll vertical */
   }
   
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
+webview::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
   }
   
-
+webview::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+webview::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   
