@@ -28,7 +28,7 @@ forwardButton.addEventListener("click", () => {
 });
 
 weatherButton.addEventListener("click", () => {
-    loadURL("https://www.weather.com/es-ES/tiempo/hoy/l/SPXX0050:1:SP?Goto=Redirected");
+    loadURL("https://www.weather.com/es-ES/tiempo/hoy/");
 });
 
 // Cargar la URL ingresada en la barra de direcciones
@@ -44,4 +44,4 @@ urlInput.addEventListener("keypress", (event) => {
 });
 
 // Cargar Google por defecto
-loadURL("https://www.google.com/");
+

@@ -51,7 +51,7 @@ app.whenReady().then(() => {
     tabsManager = new TabsManager();
 
     // Crear una pesta�a de ejemplo (Google por defecto)
-    tabsManager.createTab("https://www.google.com");
+    tabsManager.createTab("https://duckduckgo.com/");
 
     // Cerrar el splash despu�s de que mainWindow se haya cargado
     mainWindow.webContents.once("did-finish-load", () => {
