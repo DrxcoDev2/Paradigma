@@ -2,6 +2,7 @@
 const tabsContainer = document.getElementById("tabsContainer") as HTMLDivElement;
 const webview = document.getElementById("webview") as HTMLIFrameElement;
 
+// tabs.ts
 interface Tab {
     id: number;
     title: string;
@@ -15,8 +16,9 @@ export class TabsManager {
     private webview: HTMLIFrameElement;
 
     constructor() {
-        this.tabsContainer = document.getElementById("tabsContainer") as HTMLDivElement;
-        this.webview = document.getElementById("webview") as HTMLIFrameElement;
+        // Usamos las referencias al DOM desde `window.tabs`
+        this.tabsContainer = window.tabs.tabsContainer;
+        this.webview = window.tabs.webview;
 
         // Crear una pesta�a inicial
         this.createTab("https://www.google.com/");
@@ -69,5 +71,5 @@ export class TabsManager {
     }
 }
 
-// Exportamos la clase completa
 export default TabsManager;
+

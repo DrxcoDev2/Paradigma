@@ -16,14 +16,21 @@
         /* Estilo de la barra de navegaci�n */
         #navbar {
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgb(27, 27, 27);
             padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: fixed;
             top: 0;
             z-index: 1;
+            padding-top: 20px;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out; /* Transici�n suave */
+        }
+
+        /* Mostrar navbar al pasar el cursor por encima del body */
+        #navbar:hover {
+            opacity: 1; /* Hacer visible el navbar */
         }
 
         /* Barra de pesta�as */
@@ -62,11 +69,13 @@
         /* Botones de navegaci�n */
         #navbar button {
             padding: 5px 10px;
-            background-color: #007bff;
+            background-color: #303030;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 10px; 
+            
         }
 
         /* Estilo para cuando el usuario pasa el mouse por encima del bot�n */
@@ -79,7 +88,6 @@
             flex-grow: 1;
             width: 100%;
             height: 100%;
-            margin-top: 50px;
         }
     </style>
 </head>
@@ -87,17 +95,15 @@
 
     <!-- Barra de navegaci�n -->
     <div id="navbar">
+        <button id="home"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z"/></svg></button>
         <button id="back">&#8592;</button>
-        <button id="forward">&#8594;</button>
+        <button id="forward" style="margin-right: 10px;">&#8594;</button>
         <input type="text" id="url" placeholder="Search">
         <button id="go">Ir</button>
         <button id="weather">Weather</button>
     </div>
 
-    <!-- Barra de pesta�as -->
-    
-
-    <!-- WebView para cargar Google -->
+    <!-- WebView para cargar DuckDuckGo -->
     <webview id="webview" src="https://duckduckgo.com/" style="flex-grow: 1;" websecurity="false" sandbox="allow-scripts allow-same-origin"></webview>
 
     <script type="module" src="./dist/webview.js"></script> <!-- Apunta a tu archivo TS compilado -->

@@ -1,6 +1,4 @@
-import { contextBridge } from "electron";
-
-contextBridge.exposeInMainWorld("electron", {
-    poing: () => console.log("Ping from Preload")
+window.addEventListener("DOMContentLoaded", () => {
+    const tabsContainer = document.getElementById("tabs");
+    console.log(tabsContainer);
 });
-
