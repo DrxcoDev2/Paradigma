@@ -1,6 +1,6 @@
 # Paradigma
 
-“Paradigm” is a lightweight and modern desktop application built with Electron, designed to offer an intuitive and efficient browsing experience. Featuring a minimalist interface, this tool allows users to quickly access their favorite websites, manage multiple browsing windows, and perform quick actions with configurable keyboard shortcuts.
+“Paradigm” is a lightweight and modern browser built with Electron, designed to offer an intuitive and efficient browsing experience. With a minimalist interface, this tool allows users to quickly access their favorite websites, manage multiple browsing windows, and perform quick actions with configurable keyboard shortcuts. We care about your privacy so it is a local browser
 
 # Install
 ## Method 1
