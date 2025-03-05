@@ -3,3 +3,4 @@ dist/
 paradigma-linux-x64/
 android/
 .vscode/
+*.db
