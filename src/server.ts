@@ -1,61 +1,108 @@
-import Koa, { Context } from 'koa';
+import Koa from 'koa';
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
-import sqlite3 from 'sqlite3';
+import { dbPromise } from './backend/db';
+import { Context } from 'koa';
+
+// Definir una interfaz para los datos del usuario en la solicitud POST
+interface UserRequest {
+    name: string;
+    email: string;
+}
 
 const app = new Koa();
 const router = new Router();
 
-app.use(bodyParser());
-
-// Configura la base de datos SQLite
-const db = new sqlite3.Database('./mydatabase.db');
-
-// Aseg�rate de que la tabla exista
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL
-    )
-  `);
+// Middleware para manejar errores
+app.use(async (ctx, next) => {
+    try {
+        await next();
+    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+        console.error('Error en la solicitud:', err);
+        ctx.status = err.status || 500;
+        ctx.body = { error: err.message || 'Internal Server Error' };
+    }
 });
+
+// Middleware para analizar el cuerpo de las solicitudes
+app.use(bodyParser());
 
 // Ruta para obtener todos los usuarios
 router.get('/users', async (ctx: Context) => {
-  db.all('SELECT * FROM users', [], (err, rows) => {
-    if (err) {
-      ctx.status = 500;
-      ctx.body = { error: 'Database error' };
-      return;
+    try {
+        const db = await dbPromise;
+        const users = await db.all('SELECT * FROM users');
+
+        if (users.length === 0) {
+            ctx.status = 404;
+            ctx.body = { error: 'No users found' };
+            return;
+        }
+
+        ctx.body = users;
+    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+        console.error('Error al obtener los usuarios:', err);
+        ctx.status = 500;
+        ctx.body = { error: 'Failed to fetch users' };
     }
-    ctx.body = rows;
-  });
 });
 
-// Ruta para crear un nuevo usuario
+// Ruta para agregar un nuevo usuario
 router.post('/users', async (ctx: Context) => {
-  const { name, email } = ctx.request.body as { name: string; email: string };
+    try {
+        // Asegurarse de que el cuerpo tiene los datos correctos
+        const { name, email }: UserRequest = ctx.request.body as UserRequest; // Asertar tipo expl�citamente
 
-  db.run('INSERT INTO users (name, email) VALUES (?, ?)', [name, email], function (err) {
-    if (err) {
-      ctx.status = 500;
-      ctx.body = { error: 'Database error' };
-      return;
+        // Verificar que los datos del usuario sean v�lidos
+        if (!name || !email) {
+            ctx.status = 400;
+            ctx.body = { error: 'Name and email are required' };
+            return;
+        }
+
+        const db = await dbPromise;
+        const result = await db.run('INSERT INTO users (name, email) VALUES (?, ?)', [name, email]);
+
+        ctx.status = 201;
+        ctx.body = { id: result.lastID, name, email };
+    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+        console.error('Error al agregar el usuario:', err);
+        ctx.status = 500;
+        ctx.body = { error: 'Failed to add user' };
     }
-    ctx.body = {
-      id: this.lastID, // Devuelve el id del nuevo usuario insertado
-      name,
-      email,
-    };
-  });
 });
 
-// Usar las rutas
-app.use(router.routes()).use(router.allowedMethods());
+// Inicializar la base de datos y asegurarse de que la tabla 'users' exista
+(async () => {
+    try {
+        const db = await dbPromise;
 
-// Iniciar el servidor en el puerto 3020
-app.listen(3020, function () {
-  console.log('Server listening on port 3020');
+        // Crear la tabla si no existe
+        await db.exec(`
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL
+            );
+        `);
+
+        // Insertar un usuario de prueba si la tabla est� vac�a
+        const users = await db.all('SELECT * FROM users');
+        if (users.length === 0) {
+            await db.run('INSERT INTO users (name, email) VALUES (?, ?)', ['John Doe', 'john@example.com']);
+            console.log('Usuario de prueba agregado');
+        }
+    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+        console.error('Error al inicializar la base de datos:', err);
+    }
+})();
+
+// Registrar las rutas en la aplicaci�n
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+// Iniciar el servidor
+const port = 3020;
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
