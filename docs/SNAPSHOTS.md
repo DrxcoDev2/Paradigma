@@ -7,4 +7,5 @@
 | ArchLinux | ✔️ |
 | Windows | 🔴 | 
 
+🎫 [Realese](https://github.com/DrxcoDev2/Paradigma/releases/tag/pre-alpha-snapshot)
 
