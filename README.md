@@ -21,6 +21,20 @@
 |----------|----------|----------|
 |  1.0.x ✔️   |  1.0.x ✔️  | 1.0.x ❎   |
 
+# Configures
+
+### Minimize code
+  Do you like a clean compiling?
+  So, use the command:
+  ```bash
+  npm terser
+  ```
+  After, go to ```package.json```, and edit:
+  ```bash
+  "main": "dist/minified.js",
+  ```
+  Finally run `npm start`
+
 # Contribute
 
 We love that you are so enthusiastic about improving Paradigm, please see our contribution guidelines:

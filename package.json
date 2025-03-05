@@ -2,14 +2,15 @@
   "name": "paradigma",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/minified.js",
   "scripts": {
     "start": "electron .",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "css": "sass scss/index.scss:dist/index.css scss/scrollbar.scss:dist/scrollbar.css",
     "html": "cp index.html dist/index.html",
-    "test": "jest"
+    "test": "jest",
+    "terser": "terser dist/*.js -o dist/minified.js --compress --mangle"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +46,7 @@
     "mysql2": "^3.12.0",
     "reflect-metadata": "^0.2.2",
     "sass": "^1.85.1",
+    "terser": "^5.39.0",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.21",
