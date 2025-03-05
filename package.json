@@ -10,7 +10,8 @@
     "css": "sass scss/index.scss:dist/index.css scss/scrollbar.scss:dist/scrollbar.css",
     "html": "cp index.html dist/index.html",
     "test": "jest",
-    "terser": "terser dist/*.js -o dist/minified.js --compress --mangle"
+    "terser": "terser dist/*.js -o dist/minified.js --compress --mangle",
+    "server": "node dist/server.js"
   },
   "keywords": [],
   "author": "",

@@ -1,13 +1,13 @@
 import Koa from 'koa';
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
-import { dbPromise } from './backend/db';
+import { dbPromise } from './backend/db'; // Aseg�rate de que esto est� configurado correctamente
 import { Context } from 'koa';
 
-// Definir una interfaz para los datos del usuario en la solicitud POST
-interface UserRequest {
-    name: string;
-    email: string;
+// Definir una interfaz para los datos de la solicitud POST
+interface FavoriteRequest {
+    url: string;
+    fav: boolean;
 }
 
 const app = new Koa();
@@ -17,7 +17,7 @@ const router = new Router();
 app.use(async (ctx, next) => {
     try {
         await next();
-    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+    } catch (err: any) {
         console.error('Error en la solicitud:', err);
         ctx.status = err.status || 500;
         ctx.body = { error: err.message || 'Internal Server Error' };
@@ -27,72 +27,71 @@ app.use(async (ctx, next) => {
 // Middleware para analizar el cuerpo de las solicitudes
 app.use(bodyParser());
 
-// Ruta para obtener todos los usuarios
-router.get('/users', async (ctx: Context) => {
+// Ruta para obtener todos los favoritos
+router.get('/favorites', async (ctx: Context) => {
     try {
         const db = await dbPromise;
-        const users = await db.all('SELECT * FROM users');
+        const favorites = await db.all('SELECT * FROM favorites');
 
-        if (users.length === 0) {
+        if (favorites.length === 0) {
             ctx.status = 404;
-            ctx.body = { error: 'No users found' };
+            ctx.body = { error: 'No favorites found' };
             return;
         }
 
-        ctx.body = users;
-    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
-        console.error('Error al obtener los usuarios:', err);
+        ctx.body = favorites;
+    } catch (err: any) {
+        console.error('Error al obtener los favoritos:', err);
         ctx.status = 500;
-        ctx.body = { error: 'Failed to fetch users' };
+        ctx.body = { error: 'Failed to fetch favorites' };
     }
 });
 
-// Ruta para agregar un nuevo usuario
-router.post('/users', async (ctx: Context) => {
+// Ruta para agregar un nuevo favorito
+router.post('/favorites', async (ctx: Context) => {
     try {
-        // Asegurarse de que el cuerpo tiene los datos correctos
-        const { name, email }: UserRequest = ctx.request.body as UserRequest; // Asertar tipo expl�citamente
+        const { url, fav }: FavoriteRequest = ctx.request.body as FavoriteRequest;
 
-        // Verificar que los datos del usuario sean v�lidos
-        if (!name || !email) {
+        if (!url || fav === undefined) {
             ctx.status = 400;
-            ctx.body = { error: 'Name and email are required' };
+            ctx.body = { error: 'URL and fav are required' };
             return;
         }
 
         const db = await dbPromise;
-        const result = await db.run('INSERT INTO users (name, email) VALUES (?, ?)', [name, email]);
+        const result = await db.run('INSERT INTO favorites (url, fav) VALUES (?, ?)', [url, fav]);
 
         ctx.status = 201;
-        ctx.body = { id: result.lastID, name, email };
-    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
-        console.error('Error al agregar el usuario:', err);
+        ctx.body = { id: result.lastID, url, fav };
+    } catch (err: any) {
+        console.error('Error al agregar el favorito:', err);
         ctx.status = 500;
-        ctx.body = { error: 'Failed to add user' };
+        ctx.body = { error: 'Failed to add favorite' };
     }
 });
 
-// Inicializar la base de datos y asegurarse de que la tabla 'users' exista
+
+// Inicializar la base de datos y asegurarse de que la tabla 'favorites' exista
 (async () => {
     try {
         const db = await dbPromise;
 
         // Crear la tabla si no existe
         await db.exec(`
-            CREATE TABLE IF NOT EXISTS users (
+            CREATE TABLE IF NOT EXISTS favorites (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL
+                url TEXT NOT NULL,
+                fav BOOLEAN NOT NULL
             );
         `);
 
-        // Insertar un usuario de prueba si la tabla est� vac�a
-        const users = await db.all('SELECT * FROM users');
-        if (users.length === 0) {
-            await db.run('INSERT INTO users (name, email) VALUES (?, ?)', ['John Doe', 'john@example.com']);
-            console.log('Usuario de prueba agregado');
+        // Insertar un favorito de prueba si la tabla est� vac�a
+        const favorites = await db.all('SELECT * FROM favorites');
+        if (favorites.length === 0) {
+            await db.run('INSERT INTO favorites (url, fav) VALUES (?, ?)', ['https://example.com', true]);
+            console.log('Favorito de prueba agregado');
         }
-    } catch (err: any) {  // Tipo expl�cito 'any' para manejar el error
+    } catch (err: any) {
         console.error('Error al inicializar la base de datos:', err);
     }
 })();
