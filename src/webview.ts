@@ -1,4 +1,4 @@
-const webview = document.getElementById("webview") as WebviewElement;
+const webview = document.getElementById("webview") as HTMLIFrameElement;
 const backButton = document.getElementById("back") as HTMLButtonElement;
 const forwardButton = document.getElementById("forward") as HTMLButtonElement;
 const urlInput = document.getElementById("url") as HTMLInputElement;

@@ -2,3 +2,4 @@ node_modules/
 dist/
 paradigma-linux-x64/
 android/
+.vscode/
