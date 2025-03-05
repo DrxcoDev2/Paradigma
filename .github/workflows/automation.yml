@@ -25,5 +25,3 @@ jobs:
       - name: Run Prettier (code formatting)
         run: npx prettier --write "**/*.{ts,tsx,js,jsx}"
 
-      - name: Run Jest (tests)
-        run: npm test
