@@ -1,5 +1,11 @@
 # Paradigma
 
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/santiadjmc/unknown/releases)
+[![License](https://img.shields.io/badge/license-APACHE-green.svg)](LICENSE)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Koa.js](https://img.shields.io/badge/koa.js-%5E2.16.0-red.svg)](https://expressjs.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.svg)](CONTRIBUTING.md)
+
 “Paradigm” is a lightweight and modern browser built with Electron, designed to offer an intuitive and efficient browsing experience. With a minimalist interface, this tool allows users to quickly access their favorite websites, manage multiple browsing windows, and perform quick actions with configurable keyboard shortcuts. We care about your privacy so it is a local browser
 
 # Install
