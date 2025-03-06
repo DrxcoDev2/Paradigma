@@ -5,19 +5,27 @@ let mainWindow: BrowserWindow | null = null;
 let splashWindow: BrowserWindow | null = null;
 
 app.whenReady().then(() => {
-    // Crear ventana de splash
-    splashWindow = new BrowserWindow({
-        width: 400,
-        height: 300,
-        frame: false,
-        alwaysOnTop: true,
-        transparent: true,
+    // Crear tercera ventana
+    let thirdWindow = new BrowserWindow({
+        width: 500,
+        height: 400,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"),
+            nodeIntegration: false
         }
     });
 
-    splashWindow.loadFile("splash.html");
+    thirdWindow.loadURL("https://github.com");
+
+    // Crear segunda ventana
+    let seconwindow = new BrowserWindow({
+        width: 200,
+        height: 300,
+        webPreferences: {
+            nodeIntegration: false
+        }
+    });
+
+    seconwindow.loadURL("https://youtube.com");
 
     // Crear ventana principal
     mainWindow = new BrowserWindow({
@@ -54,24 +62,22 @@ app.whenReady().then(() => {
         mainWindow?.close();
         clearData();
     });
-    
 });
 
 app.on("will-quit", () => {
     globalShortcut.unregisterAll();
-
 });
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
 });
 
-// Función para limpiar la caché
+// Funci�n para limpiar la cach�
 function clearCache() {
     session.defaultSession.clearCache().then(() => {
-        console.log("Caché borrada correctamente.");
+        console.log("Cach� borrada correctamente.");
     }).catch((error) => {
-        console.error("Error al borrar la caché:", error);
+        console.error("Error al borrar la cach�:", error);
     });
 }
 

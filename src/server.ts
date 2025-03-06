@@ -70,6 +70,37 @@ router.post('/favorites', async (ctx: Context) => {
     }
 });
 
+// Ruta para eliminar un favorito por URL
+router.delete('/favorites', async (ctx: Context) => {
+    try {
+        const url = ctx.query.url as string; // Obtener la URL de la consulta
+
+        if (!url) {
+            ctx.status = 400;
+            ctx.body = { error: 'URL is required' };
+            return;
+        }
+
+        const db = await dbPromise;
+        const result = await db.run('DELETE FROM favorites WHERE url = ?', [url]);
+
+        if (result.changes === 0) {
+            ctx.status = 404;
+            ctx.body = { error: 'Favorite not found' };
+            return;
+        }
+
+        ctx.status = 200;
+        ctx.body = { message: 'Favorite deleted successfully' };
+    } catch (err: any) {
+        console.error('Error al eliminar el favorito:', err);
+        ctx.status = 500;
+        ctx.body = { error: 'Failed to delete favorite' };
+    }
+});
+
+
+
 
 // Inicializar la base de datos y asegurarse de que la tabla 'favorites' exista
 (async () => {
